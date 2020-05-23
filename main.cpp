@@ -16,6 +16,9 @@ const string TARGET_MELANCHOLIS = "GHIJKL";
 const string TARGET_PHLEGMATIC = "MNOPQR";
 const string TARGET_SANGUINIS = "STUVWX";
 
+// Tobe finded
+const string CROMOSOMTOFIND = "MNOPQR";
+
 // Function to generate random numbers in given range  
 int random_num(int start, int end) 
 { 
@@ -40,7 +43,7 @@ string create_gnome(int TARGET)
 	    string gnome = ""; 
 	    for(int i = 0;i<len;i++) 
 	        gnome += mutated_genes(); 
-	    return gnome; 	
+	    return gnome;
 	} else if (TARGET == 1) {
 		int len = TARGET_MELANCHOLIS.size(); 
 	    string gnome = ""; 
@@ -77,7 +80,7 @@ public:
 Individual::Individual(string chromosome, int TARGET) 
 { 
     this->chromosome = chromosome; 
-    fitness = cal_fitness(TARGET);  
+    this->fitness = cal_fitness(TARGET);  
 }; 
   
 // Perform mating and produce new offspring 
@@ -119,6 +122,19 @@ Individual Individual::mate(Individual par2, int TARGET)
 // string. 
 int Individual::cal_fitness(int TARGET) 
 { 
+    int fitness = 0;
+    for(int i = 0;i<CROMOSOMTOFIND.size();i++) 
+    { 
+        if(chromosome[i] != CROMOSOMTOFIND[i])
+            fitness++; 
+            cout<<chromosome[i];
+    } 
+
+    cout<<fitness<<endl;
+    
+    return fitness;
+    
+    /*
 	if(TARGET == 0) {
 		int len = TARGET_CHOLERIS.size(); 
 	    int fitness = 0; 
@@ -156,6 +172,7 @@ int Individual::cal_fitness(int TARGET)
 	    } 
 	    return fitness; 
 	}    
+    */
 }; 
   
 // Overloading < operator 
@@ -169,6 +186,8 @@ int main()
 { 
 	int GEN = 0;
 	int TARGET;
+    Individual FOUNDCHROMOSOME = Individual("", 0);
+    string cari;
 	for(int x=0; x<4; x++) {
 		srand((unsigned)(time(0))); 
   
@@ -196,6 +215,7 @@ int main()
 	        if(population[0].fitness <= 0) 
 	        { 
 	            found = true; 
+                FOUNDCHROMOSOME = population[0];
 	            break; 
 	        } 
 	  
@@ -231,6 +251,7 @@ int main()
 	    cout<< "Generation: " << generation << "\t"; 
 	    cout<< "String: "<< population[0].chromosome <<"\t"; 
     	cout<< "Fitness: "<< population[0].fitness << "\n"; 	
+        cout<< "TYPE: " << population[0].TARGET<<"\n";
     	if (GEN > generation || GEN == 0){
     		GEN = generation;
 			TARGET = x;	
@@ -238,15 +259,15 @@ int main()
 	}
 	
 	cout << "\n\n";
-    
-	if (TARGET == 0) {
-		cout << "CHOLERIS";
-	} else if (TARGET == 1) {
-		cout << "MELANCHOLIS";
-	} else if (TARGET == 2) {
-		cout << "PHLEGMATIC";
-	} else {
-		cout << "SANGUINIS";
-	}
-	
+
+    cout << "Tipe Kepribadian: ";
+    if(FOUNDCHROMOSOME.chromosome == TARGET_CHOLERIS){
+        cout << "Choleris";
+    }else if(FOUNDCHROMOSOME.chromosome == TARGET_MELANCHOLIS){
+        cout << "Melancholis";
+    }else if(FOUNDCHROMOSOME.chromosome == TARGET_PHLEGMATIC){
+        cout << "Phlegmatic";
+    }else if(FOUNDCHROMOSOME.chromosome == TARGET_SANGUINIS){
+        cout << "Sanguinis";
+    }
 } 
